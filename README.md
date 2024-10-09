@@ -1,1 +1,0 @@
-# Nc-X-Regz-S

@@ -3,15 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Type</title>
-    <link rel="stylesheet" href="Style.css">
+    <title>Sensitivity Settings</title>
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: rgb(249, 250, 251);
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgb(31, 41, 55);
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .card i {
+            width: 2rem;
+            height: 2rem;
+            color: rgb(55, 65, 81);
+        }
+
+        .card span {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgb(31, 41, 55);
+            text-align: center;
+        }
+
+        .regedit-card {
+            grid-column: span 2;
+            max-width: 20rem;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .regedit-card {
+                grid-column: span 4;
+            }
+        }
+
+        .side-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+            height: 80vh;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+        }
+
+        .side-panel.open {
+            transform: translateY(0);
+        }
+
+        .side-panel h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .panel-button {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid rgb(229, 231, 235);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .panel-button i {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .option-button {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: transparent;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgb(55, 65, 81);
+            transition: background-color 0.2s;
+        }
+
+        .option-button:hover {
+            background-color: rgb(243, 244, 246);
+        }
+
+        .option-button i {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Enter IP Address</h1>
-    <label for="ip">Enter IP Address:</label>
-    <input type="text" id="ip" name="ip" required>
-    <button onclick="loadPage()">Load Web Page</button>
+    <div class="container">
+        <h1>Sensitivity Settings</h1>
+        <div class="grid">
+            <div class="card" onclick="showToast('Screen Sensitivity')">
+                <i data-lucide="maximize"></i>
+                <span>Screen Sensitivity</span>
+            </div>
+            <div class="card" onclick="showToast('Sensitivity Geral')">
+                <i data-lucide="sliders-horizontal"></i>
+                <span>Sensitivity Geral</span>
+            </div>
+            <div class="card" onclick="showToast('Dpi Manual')">
+                <i data-lucide="edit"></i>
+                <span>Dpi Manual</span>
+            </div>
+            <div class="card" onclick="showToast('Msi Of Sensitivity')">
+                <i data-lucide="mouse"></i>
+                <span>Msi Of Sensitivity</span>
+            </div>
+            <div class="card" onclick="showToast('Sensitivity 2x')">
+                <i data-lucide="grid-2x2"></i>
+                <span>Sensitivity 2x</span>
+            </div>
+            <div class="card" onclick="showToast('Sensitivity 4x')">
+                <i data-lucide="grid-3x3"></i>
+                <span>Sensitivity 4x</span>
+            </div>
+            <div class="card" onclick="showToast('Sensitivity X')">
+                <i data-lucide="arrow-left"></i>
+                <span>Sensitivity X</span>
+            </div>
+            <div class="card" onclick="showToast('Sensitivity Y')">
+                <i data-lucide="arrow-up"></i>
+                <span>Sensitivity Y</span>
+            </div>
+            <div class="card regedit-card" onclick="showToast('Opções Regedit')">
+                <i data-lucide="settings"></i>
+                <span>Opções Regedit</span>
+            </div>
+        </div>
+    </div>
 
-    <script src="Script.js"></script>
+    <button class="panel-button" onclick="togglePanel()">
+        <i data-lucide="eye"></i>
+    </button>
+
+    <div class="side-panel" id="sidePanel">
+        <h2>Regedit Options</h2>
+        <button class="option-button">
+            <i data-lucide="settings"></i>
+            <span>Regedit Macro</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="sliders"></i>
+            <span>Aimbot Regedit</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="monitor"></i>
+            <span>AimLock Regedit</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="crosshair"></i>
+            <span>Sporting Regedit</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="target"></i>
+            <span>Msi Of Regedit</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="circle-dot"></i>
+            <span>Aim Mira Regedit</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="circle"></i>
+            <span>Aim Shot Regedit</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="crosshair"></i>
+            <span>Aim Head Mira</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="zap"></i>
+            <span>Gelo Rápido</span>
+        </button>
+        <button class="option-button">
+            <i data-lucide="target"></i>
+            <span>Auto Aim Recoil</span>
+        </button>
+    </div>
+
+    <div class="toast" id="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Side panel toggle functionality
+        let isPanelOpen = false;
+        const sidePanel = document.getElementById('sidePanel');
+        const panelButton = document.querySelector('.panel-button');
+
+        function togglePanel() {
+            isPanelOpen = !isPanelOpen;
+            sidePanel.classList.toggle('open');
+            const icon = panelButton.querySelector('i');
+            icon.setAttribute('data-lucide', isPanelOpen ? 'eye-off' : 'eye');
+            lucide.createIcons();
+        }
+
+        // Toast notification functionality
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            clearTimeout(toastTimeout);
+            
+            toastMessage.textContent = You clicked on ${message};
+            toast.style.display = 'block';
+            
+            toastTimeout = setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Close panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (isPanelOpen && !sidePanel.contains(e.target) && !panelButton.contains(e.target)) {
+                togglePanel();
+            }
+        });
+    </script>
 </body>
 </html>
